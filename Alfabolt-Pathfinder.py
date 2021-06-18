@@ -60,16 +60,19 @@ class Dijkstra:
                     adj_node[i] = cur
         return path.get(dest), adj_node
 
-    def Prnt(initial, final ,cost, adj=None):    # Finally, print nodes that satisfies the condition
+    def Prnt(initial, final, adj=None):    # Finally, print nodes that satisfies the condition
+        temp = list()
         print(f'Shortest route between {initial} to {final}')
-        print(f'Path: {final}<-{initial}<-') if adj == None else print(f"Path: {final}", end='<-')
+        if adj == None:
+            temp = [initial, final]
+            return (temp)
         while (adj):
+            temp.append(final)
             final = adj[final]
             if final is None:
-                print("")
-                break
-            print(final, end='<-')
-        print(f'Cost: {cost}')
+                temp.reverse()
+                return(temp)
+
 
 def main():
 
@@ -84,7 +87,9 @@ def main():
             cost = ent['cost']
     if cost is None:
         cost, adj = Dijkstra.Shortest_path(Dijkstra.graphgen(Constant.airports), start, final)
-    Dijkstra.Prnt(start, final, cost, adj)
+    path = Dijkstra.Prnt(start, final, adj)
+
+    print (f'COST: {cost}, PATH FOLLOWED: {path}')
 
 if (__name__=='__main__'):
     main()
